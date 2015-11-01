@@ -6,9 +6,11 @@ Fifth project of the Udacity Android Nanodegree course.
 
 ## Screenshots
 ### Before
+![Before](screenshots/preview_before.png)
 
 ### After
+![After](screenshots/preview_after.png)
 
-## Comments 
+## Comments to the reviewer
 - The Details Fragment (ViewPager) is suffering from this bug: [CoordinatorLayout status bar padding disappears from ViewPager 2nd page](http://stackoverflow.com/questions/31368781/coordinatorlayout-status-bar-padding-disappears-from-viewpager-2nd-page)
-- I didn't add a Shared Element Transition between the photo on the list and on the details because of the ViewPager too, see: [Fragment shared element transitions don't work with ViewPager](http://stackoverflow.com/questions/30628543/fragment-shared-element-transitions-dont-work-with-viewpager)
+- I didn't add a Shared Element Transition between the photo on the list and on the details page because of the ViewPager too, see: [Fragment shared element transitions don't work with ViewPager](http://stackoverflow.com/questions/30628543/fragment-shared-element-transitions-dont-work-with-viewpager)
