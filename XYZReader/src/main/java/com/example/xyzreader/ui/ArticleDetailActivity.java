@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
@@ -33,9 +33,9 @@ public class ArticleDetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
         }
         setContentView(R.layout.activity_article_detail);
 
@@ -44,6 +44,11 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
+
+        //Animation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        }
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -80,7 +85,6 @@ public class ArticleDetailActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
-
 
         // Select the start ID
         if (mStartId > 0) {

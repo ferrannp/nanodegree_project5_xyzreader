@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Bacon.Details" parent="Theme.Bacon">
+        <item name="android:windowEnterTransition">@transition/details_text</item>
+        <item name="android:windowReturnTransition">@android:transition/slide_right</item>
+    </style>
+</resources>

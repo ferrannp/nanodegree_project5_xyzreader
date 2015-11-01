@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -37,12 +39,19 @@ public class ArticleListActivity extends AppCompatActivity implements
     private AppBarLayout appBarLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
@@ -50,6 +59,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             refresh();
         }
+
     }
 
     private void refresh() {
@@ -145,8 +155,18 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        // Do something for lollipop and above versions
+                        Bundle bundle = ActivityOptionsCompat
+                                .makeSceneTransitionAnimation(ArticleListActivity.this)
+                                .toBundle();
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))
+                                , bundle);
+                    }else{
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    }
                 }
             });
             return vh;

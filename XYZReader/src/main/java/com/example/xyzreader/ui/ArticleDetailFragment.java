@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ShareCompat;
@@ -177,6 +178,9 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
         bindViews();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().startPostponedEnterTransition();
+        }
     }
 
     @Override
